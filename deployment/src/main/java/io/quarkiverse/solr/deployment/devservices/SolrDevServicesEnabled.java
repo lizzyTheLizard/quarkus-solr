@@ -1,4 +1,4 @@
-package io.quarkiverse.solr.deployment;
+package io.quarkiverse.solr.deployment.devservices;
 
 import java.util.function.BooleanSupplier;
 
@@ -37,7 +37,6 @@ public class SolrDevServicesEnabled implements BooleanSupplier {
             log.debug("Not starting devservices as launch mode is not supported");
             return false;
         }
-        //TODO: is this even working (runtime config in a build time)? If not, remove it!
         if (ConfigUtils.isPropertyPresent(SolrRunTimeConfig.URL_CONFIG_KEY)) {
             log.debug("Not starting devservices as url has been provided");
             return false;

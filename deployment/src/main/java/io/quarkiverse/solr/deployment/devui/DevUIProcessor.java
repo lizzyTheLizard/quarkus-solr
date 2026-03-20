@@ -1,4 +1,4 @@
-package io.quarkiverse.solr.deployment;
+package io.quarkiverse.solr.deployment.devui;
 
 import io.quarkiverse.solr.runtime.SolrDevJsonRpcService;
 import io.quarkus.deployment.IsDevelopment;

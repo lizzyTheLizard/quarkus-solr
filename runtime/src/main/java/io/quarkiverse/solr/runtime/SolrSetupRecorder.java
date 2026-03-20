@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.CloudHttp2SolrClient;
+import org.apache.solr.client.solrj.impl.HttpJdkSolrClient;
 import org.jboss.logging.Logger;
 
 import io.quarkus.runtime.RuntimeValue;
@@ -20,8 +21,19 @@ public class SolrSetupRecorder {
 
     public RuntimeValue<SolrClient> createClient() {
         List<String> urls = runTimeConfig.getValue().url();
-        SolrClient client = new CloudHttp2SolrClient.Builder(urls).build();
-        log.info("Created SolrClient with URL: " + String.join(", ", urls));
-        return new RuntimeValue<>(client);
+        if (runTimeConfig.getValue().cloud()) {
+            SolrClient client = new CloudHttp2SolrClient.Builder(urls).build();
+            log.info("Created Solr cloud client with URLs: " + String.join(", ", urls));
+            return new RuntimeValue<>(client);
+        } else {
+            if (urls.size() != 1) {
+                throw new RuntimeException(
+                        "Multiple URLs provided for non-cloud configuration. Please provide only one URL or set cloud=true.");
+            }
+            String url = urls.get(0);
+            SolrClient client = new HttpJdkSolrClient.Builder(url).build();
+            log.info("Created Solr client with URL: " + url);
+            return new RuntimeValue<>(client);
+        }
     }
 }

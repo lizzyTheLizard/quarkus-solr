@@ -12,6 +12,7 @@
 
     <properties>
         <skipITs>true</skipITs>
+        <native.surefire.skip>false</native.surefire.skip>
     </properties>
 
     <dependencies>
