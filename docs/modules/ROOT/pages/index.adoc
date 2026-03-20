@@ -1,5 +1,7 @@
 = Quarkus Solr
 
+//TODO: Add documentation here
+
 include::./includes/attributes.adoc[]
 
 TIP: Describe what the extension does here.

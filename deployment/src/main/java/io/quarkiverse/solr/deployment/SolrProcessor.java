@@ -20,9 +20,14 @@ class SolrProcessor {
         return new FeatureBuildItem(FEATURE);
     }
 
-    //TODO: Test Solr inself
     //TODO: Native tests
-    //TODO: Tests for bean mapping
+    //TODO: Health indicator
+    //TODO: Metrics
+    //TODO: Codestart template
+    //TODO: Replace reflections on bean mapping?
+    //TODO: Mutiny based api?
+    //TODO: Logging
+    //TODO: Tracing context
 
     @BuildStep
     @Record(ExecutionTime.RUNTIME_INIT)
