@@ -13,6 +13,7 @@ public class SolrBean {
         this.name = name;
     }
 
+    @SuppressWarnings("unused") //Used internally by solr
     public SolrBean() {
     }
 }
