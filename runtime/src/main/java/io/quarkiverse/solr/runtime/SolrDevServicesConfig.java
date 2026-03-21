@@ -37,6 +37,20 @@ public interface SolrDevServicesConfig {
      */
     OptionalInt port();
 
+    /**
+     * The name of the collection to be created in Solr
+     * <p>
+     * If not defined, a collection names "dummy" will be created
+     */
+    Optional<String> collection();
+
+    /**
+     * Custom configuration to be used
+     * <p>
+     * If not set, default configuration of SOLR docker container is used
+     */
+    Optional<SolrDevServicesConfigurationConfig> configuration();
+
     @Override
     String toString();
 }

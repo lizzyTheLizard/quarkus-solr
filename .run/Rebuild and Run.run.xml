@@ -1,0 +1,37 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Rebuild and Run" type="MavenRunConfiguration" factoryName="Maven">
+    <MavenSettings>
+      <option name="myGeneralSettings" />
+      <option name="myRunnerSettings" />
+      <option name="myRunnerParameters">
+        <MavenRunnerParameters>
+          <option name="cmdOptions" />
+          <option name="profiles">
+            <set />
+          </option>
+          <option name="goals">
+            <list>
+              <option value="-Dmaven.test.skip=true" />
+              <option value="quarkus:dev" />
+            </list>
+          </option>
+          <option name="multimoduleDir" />
+          <option name="pomFileName" value="pom.xml" />
+          <option name="profilesMap">
+            <map />
+          </option>
+          <option name="projectsCmdOptionValues">
+            <list />
+          </option>
+          <option name="resolveToWorkspace" value="false" />
+          <option name="workingDirPath" value="$PROJECT_DIR$/integration-tests" />
+        </MavenRunnerParameters>
+      </option>
+    </MavenSettings>
+    <method v="2">
+      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/runtime/pom.xml" goal="-Dmaven.test.skip=true install" />
+      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/deployment/pom.xml" goal="-Dmaven.test.skip=true install" />
+      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/integration-tests/pom.xml" goal="-Dmaven.test.skip=true compile" />
+    </method>
+  </configuration>
+</component>
