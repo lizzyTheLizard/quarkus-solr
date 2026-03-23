@@ -17,7 +17,7 @@ endif::add-copy-button-to-config-props[]
 --
 If DevServices has been explicitly enabled or disabled. DevServices is generally enabled by default, unless there is an existing configuration present.
 
-When DevServices is enabled Quarkus will attempt to automatically configure and start a vault instance when running in Dev or Test mode and when Docker is running.
+When DevServices is enabled Quarkus will attempt to automatically configure and start a solr instance when running in Dev or Test mode and when Docker is running.
 
 
 ifdef::add-copy-button-to-env-var[]
@@ -76,6 +76,121 @@ endif::add-copy-button-to-env-var[]
 |int
 |
 
+a|icon:lock[title=Fixed at build time] [[quarkus-solr_quarkus-solr-devservices-collection]] [.property-path]##link:#quarkus-solr_quarkus-solr-devservices-collection[`+++quarkus.solr.devservices.collection+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.solr.devservices.collection+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+The name of the collection to be created in Solr
+
+If not defined, a collection names "dummy" will be created
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_SOLR_DEVSERVICES_COLLECTION+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_SOLR_DEVSERVICES_COLLECTION+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|
+
+a|icon:lock[title=Fixed at build time] [[quarkus-solr_quarkus-solr-devservices-configuration]] [.property-path]##link:#quarkus-solr_quarkus-solr-devservices-configuration[`+++quarkus.solr.devservices.configuration+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.solr.devservices.configuration+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Custom configuration to be used. Must be a directory on the classpath containing at least a solrconfig.xml
+
+If not set, default configuration of SOLR docker container is used
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_SOLR_DEVSERVICES_CONFIGURATION+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_SOLR_DEVSERVICES_CONFIGURATION+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|
+
+a|icon:lock[title=Fixed at build time] [[quarkus-solr_quarkus-solr-devservices-service-name]] [.property-path]##link:#quarkus-solr_quarkus-solr-devservices-service-name[`+++quarkus.solr.devservices.service-name+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.solr.devservices.service-name+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+The value of the label attached to the started container. This property is used when `shared` is set to `true`. In this case, before starting a container, Dev Services looks for a container with the `quarkus-dev-service-solr` label set to the configured value. If found, it will use this container instead of starting a new one. Otherwise it starts a new container with the `quarkus-dev-service-solr` label set to the specified value.
+
+This property is used when you need multiple shared Vault instances.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_SOLR_DEVSERVICES_SERVICE_NAME+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_SOLR_DEVSERVICES_SERVICE_NAME+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|`+++solr+++`
+
+a|icon:lock[title=Fixed at build time] [[quarkus-solr_quarkus-solr-devservices-shared]] [.property-path]##link:#quarkus-solr_quarkus-solr-devservices-shared[`+++quarkus.solr.devservices.shared+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.solr.devservices.shared+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Indicates if the instance managed by Quarkus Dev Services is shared. When shared, Quarkus looks for running containers using label-based service discovery. If a matching container is found, it is used, and so a second one is not started. Otherwise, Dev Services starts a new container.
+
+The discovery uses the `quarkus-dev-service-solr` label. The value is configured using the `service-name` property.
+
+Container sharing is only used in dev mode.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_SOLR_DEVSERVICES_SHARED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_SOLR_DEVSERVICES_SHARED+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`+++true+++`
+
+a| [[quarkus-solr_quarkus-solr-cloud]] [.property-path]##link:#quarkus-solr_quarkus-solr-cloud[`+++quarkus.solr.cloud+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.solr.cloud+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Should solr could be used?
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_SOLR_CLOUD+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_SOLR_CLOUD+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`+++false+++`
+
 a| [[quarkus-solr_quarkus-solr-url]] [.property-path]##link:#quarkus-solr_quarkus-solr-url[`+++quarkus.solr.url+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.solr.url+++[]
@@ -86,7 +201,7 @@ endif::add-copy-button-to-config-props[]
 --
 URL on which Solr is running.
 
-If multiple URLs are given, the first one is used as the base URL and the others are used for failover.
+If multiple URLs are given, the first one is used as the base URL and the others are used for failover. If solr could is not used, only one URL can be defined.
 
 
 ifdef::add-copy-button-to-env-var[]
@@ -97,7 +212,7 @@ Environment variable: `+++QUARKUS_SOLR_URL+++`
 endif::add-copy-button-to-env-var[]
 --
 |list of string
-|
+|required icon:exclamation-circle[title=Configuration property is required]
 
 |===
 
