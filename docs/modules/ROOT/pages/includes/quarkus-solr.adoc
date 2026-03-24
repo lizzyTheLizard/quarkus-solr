@@ -1,12 +1,32 @@
 [.configuration-legend]
 icon:lock[title=Fixed at build time] Configuration property fixed at build time - All other configuration properties are overridable at runtime
-
-[.configuration-reference.searchable,cols="80,.^10,.^10"]
+[.configuration-reference.searchable, cols="80,.^10,.^10"]
 |===
 
 h|[.header-title]##Configuration property##
 h|Type
 h|Default
+
+a|icon:lock[title=Fixed at build time] [[quarkus-solr_quarkus-solr-health-enabled]] [.property-path]##link:#quarkus-solr_quarkus-solr-health-enabled[`+++quarkus.solr.health-enabled+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.solr.health-enabled+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Is solr health check enabled
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_SOLR_HEALTH_ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_SOLR_HEALTH_ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`+++true+++`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-solr_quarkus-solr-devservices-enabled]] [.property-path]##link:#quarkus-solr_quarkus-solr-devservices-enabled[`+++quarkus.solr.devservices.enabled+++`]##
 ifdef::add-copy-button-to-config-props[]

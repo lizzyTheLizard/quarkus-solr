@@ -1,6 +1,6 @@
 package io.quarkiverse.solr.deployment.devui;
 
-import io.quarkiverse.solr.runtime.SolrDevJsonRpcService;
+import io.quarkiverse.solr.runtime.devui.SolrDevJsonRpcService;
 import io.quarkus.deployment.IsDevelopment;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.annotations.BuildSteps;

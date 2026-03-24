@@ -1,8 +1,10 @@
-package io.quarkiverse.solr.runtime;
+package io.quarkiverse.solr.runtime.observe;
 
+import io.quarkiverse.solr.runtime.SolrRunTimeConfig;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.request.CollectionAdminRequest;
+import org.apache.solr.client.solrj.request.HealthCheckRequest;
 import org.apache.solr.client.solrj.response.CollectionAdminResponse;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
@@ -33,6 +35,13 @@ public class SolrHealthCheck implements HealthCheck {
                 .withData("url", String.join(", ", runTimeConfig.url()))
                 .withData("cloud", runTimeConfig.cloud());
         try {
+            boolean overallHealth = getOverallHealth();
+            if (!overallHealth) {
+                return builder
+                        .down()
+                        .withData("error", "Overall Solr health check failed")
+                        .build();
+            }
             Set<String> collectionNames = getCollectionNames();
             boolean health = collectionNames.stream().allMatch(this::checkCollection);
             log.debug("Solr status overall is " + health);
@@ -41,12 +50,18 @@ public class SolrHealthCheck implements HealthCheck {
                     .withData("collections", String.join(", ", collectionNames))
                     .build();
         } catch (Exception e) {
-            log.warn("Cannot get list of collection from solr", e);
+            log.warn("Cannot communicate with solr", e);
             return builder
                     .down()
-                    .withData("error", e.getMessage())
+                    .withData("error", e.getClass().getName() + ": " + e.getMessage())
                     .build();
         }
+    }
+
+    private boolean getOverallHealth() throws SolrServerException, IOException {
+        HealthCheckRequest request = new HealthCheckRequest();
+        org.apache.solr.client.solrj.response.HealthCheckResponse response = request.process(solrClient);
+        return response.getNodeStatus().equals("OK");
     }
 
     @SuppressWarnings("unchecked")

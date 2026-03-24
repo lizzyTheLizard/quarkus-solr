@@ -1,5 +1,6 @@
-package io.quarkiverse.solr.runtime;
+package io.quarkiverse.solr.runtime.devui;
 
+import io.quarkiverse.solr.runtime.SolrRunTimeConfig;
 import io.smallrye.common.annotation.NonBlocking;
 
 public class SolrDevJsonRpcService {

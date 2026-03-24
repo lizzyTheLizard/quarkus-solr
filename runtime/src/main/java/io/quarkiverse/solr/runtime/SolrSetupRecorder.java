@@ -1,5 +1,7 @@
 package io.quarkiverse.solr.runtime;
 
+import io.quarkiverse.solr.runtime.observe.SolrClientProxy;
+import io.quarkiverse.solr.runtime.observe.SolrMetrics;
 import io.quarkus.runtime.RuntimeValue;
 import io.quarkus.runtime.annotations.Recorder;
 import org.apache.solr.client.solrj.SolrClient;
@@ -18,21 +20,21 @@ public class SolrSetupRecorder {
         this.runTimeConfig = runTimeConfig;
     }
 
-    public RuntimeValue<SolrClient> createClient() {
+    public RuntimeValue<SolrClient> createClient(SolrMetrics metrics) {
         List<String> urls = runTimeConfig.getValue().url();
         if (runTimeConfig.getValue().cloud()) {
             SolrClient client = new CloudHttp2SolrClient.Builder(urls).build();
             log.info("Created Solr cloud client with URLs: " + String.join(", ", urls));
-            return new RuntimeValue<>(client);
+            return new RuntimeValue<>(new SolrClientProxy(client, metrics));
         } else {
             if (urls.size() != 1) {
-                throw new RuntimeException(
-                        "Multiple URLs provided for non-cloud configuration. Please provide only one URL or set cloud=true.");
+                String msg = "Multiple URLs provided for non-cloud configuration. Please provide only one URL or set cloud=true.";
+                throw new RuntimeException(msg);
             }
             String url = urls.get(0);
             SolrClient client = new HttpJdkSolrClient.Builder(url).build();
             log.info("Created Solr client with URL: " + url);
-            return new RuntimeValue<>(client);
+            return new RuntimeValue<>(new SolrClientProxy(client, metrics));
         }
     }
 }

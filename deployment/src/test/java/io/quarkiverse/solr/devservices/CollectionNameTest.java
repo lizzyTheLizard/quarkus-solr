@@ -1,7 +1,10 @@
 package io.quarkiverse.solr.devservices;
 
-import io.quarkus.test.QuarkusUnitTest;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import jakarta.inject.Inject;
+
 import org.apache.solr.client.solrj.RemoteSolrException;
 import org.apache.solr.client.solrj.SolrClient;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -9,8 +12,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import io.quarkus.test.QuarkusUnitTest;
 
 class CollectionNameTest {
     @RegisterExtension
