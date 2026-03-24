@@ -4,6 +4,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 import org.apache.solr.client.solrj.SolrClient;
 
+import io.quarkiverse.solr.runtime.SolrBuildTimeConfig;
+import io.quarkiverse.solr.runtime.SolrHealthCheck;
 import io.quarkiverse.solr.runtime.SolrSetupRecorder;
 import io.quarkus.arc.deployment.SyntheticBeanBuildItem;
 import io.quarkus.deployment.annotations.BuildStep;
@@ -11,6 +13,7 @@ import io.quarkus.deployment.annotations.ExecutionTime;
 import io.quarkus.deployment.annotations.Record;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.runtime.RuntimeValue;
+import io.quarkus.smallrye.health.deployment.spi.HealthBuildItem;
 
 class SolrProcessor {
     public static final String FEATURE = "solr";
@@ -21,7 +24,6 @@ class SolrProcessor {
     }
 
     //TODO: Native tests
-    //TODO: Health indicator
     //TODO: Metrics
     //TODO: Codestart template
     //TODO: Replace reflections on bean mapping?
@@ -40,5 +42,10 @@ class SolrProcessor {
                 .runtimeValue(solrClient)
                 .setRuntimeInit()
                 .done();
+    }
+
+    @BuildStep
+    HealthBuildItem addHealthCheck(SolrBuildTimeConfig solrBuildTimeConfig) {
+        return new HealthBuildItem(SolrHealthCheck.class.getName(), solrBuildTimeConfig.healthEnabled());
     }
 }
