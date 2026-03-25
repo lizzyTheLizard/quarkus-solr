@@ -1,15 +1,17 @@
 package io.quarkiverse.solr.observe;
 
-import io.quarkus.test.QuarkusUnitTest;
-import io.smallrye.health.SmallRyeHealthReporter;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import jakarta.inject.Inject;
 import jakarta.json.JsonObject;
+
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import io.quarkus.test.QuarkusUnitTest;
+import io.smallrye.health.SmallRyeHealthReporter;
 
 class HealthCheckTest {
     @RegisterExtension
@@ -25,6 +27,6 @@ class HealthCheckTest {
         assertEquals("Solr Health Check", group.getString("name"));
         assertEquals("UP", group.getString("status"));
         assertEquals("dummy", group.getJsonObject("data").getString("collections"));
-        assertEquals("false", group.getJsonObject("data").getString("cloud"));
+        assertEquals("false", group.getJsonObject("data").get("cloud").toString());
     }
 }

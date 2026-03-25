@@ -1,16 +1,18 @@
 package io.quarkiverse.solr.observe;
 
-import io.quarkus.test.QuarkusUnitTest;
-import io.smallrye.health.SmallRyeHealthReporter;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import jakarta.inject.Inject;
 import jakarta.json.JsonObject;
+
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import io.quarkus.test.QuarkusUnitTest;
+import io.smallrye.health.SmallRyeHealthReporter;
 
 class HealthCheckFailedTest {
     @RegisterExtension
