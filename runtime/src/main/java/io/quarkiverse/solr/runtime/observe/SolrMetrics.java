@@ -9,25 +9,40 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SolrMetrics {
-    private Map<SolrRequest.SolrRequestType, RequestTypeMetrics> metricsMap;
+    private final AtomicInteger successRequestCounter = new AtomicInteger(0);
+    private final AtomicInteger errorRequestCounter = new AtomicInteger(0);
+    private final MetricsFactory.TimeRecorder timeRecorder;
+    private final Map<SolrRequest.SolrRequestType, RequestTypeMetrics> metricsMap;
 
-    public void register(MetricsFactory metricsFactory) {
+    public SolrMetrics(MetricsFactory metricsFactory) {
         metricsMap = Arrays.stream(SolrRequest.SolrRequestType.values())
                 .collect(java.util.stream.Collectors.toMap(
                         type -> type,
                         type -> new RequestTypeMetrics(type, metricsFactory)));
+        metricsFactory.builder("solr.requests")
+                .description("Successful request to solr")
+                .unit("requests")
+                .buildCounter(successRequestCounter::get);
+        metricsFactory.builder("solr.errors")
+                .description("Failed requests to solr")
+                .unit("requests")
+                .buildCounter(errorRequestCounter::get);
+        timeRecorder = metricsFactory.builder("solr.time")
+                .description("Time taken for requests")
+                .unit("milliseconds")
+                .buildTimer();
+
     }
 
     public void updateSuccess(SolrRequest.SolrRequestType type, long timeTakenMillis) {
-        if (metricsMap == null)
-            return;
         metricsMap.get(type).updateSuccess(timeTakenMillis);
+        successRequestCounter.incrementAndGet();
+        timeRecorder.update(timeTakenMillis, TimeUnit.MILLISECONDS);
     }
 
     public void updateError(SolrRequest.SolrRequestType type) {
-        if (metricsMap == null)
-            return;
         metricsMap.get(type).updateError();
+        errorRequestCounter.incrementAndGet();
     }
 
     private static class RequestTypeMetrics {
@@ -36,15 +51,15 @@ public class SolrMetrics {
         private final MetricsFactory.TimeRecorder timeRecorder;
 
         private RequestTypeMetrics(SolrRequest.SolrRequestType type, MetricsFactory metricsFactory) {
-            metricsFactory.builder("solr.request." + type)
-                    .description("Number of successfully " + type + " requests to solr")
+            metricsFactory.builder("solr." + type + ".requests")
+                    .description("Successful " + type + " requests to solr")
                     .unit("requests")
                     .buildCounter(successRequestCounter::get);
-            metricsFactory.builder("solr.error." + type)
-                    .description("Number of failed " + type + " requests to solr")
+            metricsFactory.builder("solr." + type + ".errors")
+                    .description("Failed " + type + " requests to solr")
                     .unit("requests")
                     .buildCounter(errorRequestCounter::get);
-            timeRecorder = metricsFactory.builder("solr.time." + type)
+            timeRecorder = metricsFactory.builder("solr." + type + ".time")
                     .description("Time taken for " + type + " requests")
                     .unit("milliseconds")
                     .buildTimer();

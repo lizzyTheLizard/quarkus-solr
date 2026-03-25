@@ -1,20 +1,23 @@
 package io.quarkiverse.solr.runtime.observe;
 
+import java.io.IOException;
+
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrRequest;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.util.NamedList;
 import org.jboss.logging.Logger;
 
-import java.io.IOException;
-
 public class SolrClientProxy extends SolrClient {
     private static final Logger log = Logger.getLogger(SolrClientProxy.class);
     private final SolrClient delegate;
-    private final transient SolrMetrics metrics;
+    private transient SolrMetrics metrics;
 
-    public SolrClientProxy(SolrClient delegate, SolrMetrics metrics) {
+    public SolrClientProxy(SolrClient delegate) {
         this.delegate = delegate;
+    }
+
+    public void registerMetrics(SolrMetrics metrics) {
         this.metrics = metrics;
     }
 
@@ -29,11 +32,13 @@ public class SolrClientProxy extends SolrClient {
             log.debug("Successfully performed " + request.getRequestType() + " request taking " + timeInMs + " ms");
             log.trace("Request was " + print(request));
             log.trace("Response was " + response.jsonStr());
-            metrics.updateSuccess(request.getRequestType(), endNanos - startNanos);
+            if (metrics != null)
+                metrics.updateSuccess(request.getRequestType(), endNanos - startNanos);
             return response;
         } catch (Exception e) {
             log.warn("Failed to perform " + request.getRequestType() + " request: " + e.getMessage(), e);
-            metrics.updateError(request.getRequestType());
+            if (metrics != null)
+                metrics.updateError(request.getRequestType());
             throw e;
         }
     }

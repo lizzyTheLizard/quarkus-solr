@@ -1,9 +1,10 @@
 package io.quarkiverse.solr.deployment;
 
-import io.quarkiverse.solr.deployment.observe.MetricsBuildItem;
 import io.quarkiverse.solr.runtime.SolrBuildTimeConfig;
 import io.quarkiverse.solr.runtime.SolrSetupRecorder;
+import io.quarkiverse.solr.runtime.observe.SolrClientProxy;
 import io.quarkiverse.solr.runtime.observe.SolrHealthCheck;
+import io.quarkus.arc.deployment.BeanContainerBuildItem;
 import io.quarkus.arc.deployment.SyntheticBeanBuildItem;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.annotations.ExecutionTime;
@@ -29,16 +30,12 @@ class SolrProcessor {
     }
 
     @BuildStep
-    MetricsBuildItem metrics() {
-        return new MetricsBuildItem();
-    }
-
-    @BuildStep
     @Record(ExecutionTime.RUNTIME_INIT)
-    SyntheticBeanBuildItem solrClient(SolrSetupRecorder recorder, MetricsBuildItem metrics) {
-        RuntimeValue<SolrClient> solrClient = recorder.createClient(metrics.getMetrics());
+    SyntheticBeanBuildItem solrClient(SolrSetupRecorder recorder) {
+        RuntimeValue<SolrClientProxy> solrClient = recorder.createClient();
         return SyntheticBeanBuildItem
-                .configure(SolrClient.class)
+                .configure(SolrClientProxy.class)
+                .addType(SolrClient.class)
                 .scope(ApplicationScoped.class)
                 .defaultBean()
                 .runtimeValue(solrClient)
@@ -53,7 +50,7 @@ class SolrProcessor {
 
     @BuildStep
     @Record(ExecutionTime.RUNTIME_INIT)
-    MetricsFactoryConsumerBuildItem registerMetrics(SolrSetupRecorder recorder, MetricsBuildItem metrics) {
-        return new MetricsFactoryConsumerBuildItem(metrics.getMetrics()::register);
+    MetricsFactoryConsumerBuildItem addMetrics(SolrSetupRecorder recorder, BeanContainerBuildItem beanContainerBuildItem) {
+        return new MetricsFactoryConsumerBuildItem(recorder.registerMetrics(beanContainerBuildItem.getValue()));
     }
 }
