@@ -1,9 +1,6 @@
 package io.quarkiverse.solr.runtime.observe;
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-
+import io.quarkiverse.solr.runtime.SolrRunTimeConfig;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.request.CollectionAdminRequest;
@@ -15,7 +12,9 @@ import org.eclipse.microprofile.health.HealthCheckResponseBuilder;
 import org.eclipse.microprofile.health.Readiness;
 import org.jboss.logging.Logger;
 
-import io.quarkiverse.solr.runtime.SolrRunTimeConfig;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 @Readiness
 public class SolrHealthCheck implements HealthCheck {
