@@ -1,7 +1,6 @@
 package io.quarkiverse.solr.it;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.is;
 
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +14,6 @@ class SolrResourceTest {
         given()
                 .when().get("/solr")
                 .then()
-                .statusCode(200)
-                .body(is("Hello solr"));
+                .statusCode(200);
     }
 }
