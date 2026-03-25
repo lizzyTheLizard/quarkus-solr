@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 
+import jakarta.inject.Inject;
+
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -15,7 +17,6 @@ import io.micrometer.core.instrument.FunctionCounter;
 import io.micrometer.core.instrument.Timer;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
 import io.quarkus.test.QuarkusUnitTest;
-import jakarta.inject.Inject;
 
 class MetricsTest {
     @RegisterExtension

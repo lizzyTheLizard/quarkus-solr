@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+import jakarta.inject.Inject;
+
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.request.SolrQuery;
@@ -19,7 +21,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
 import io.quarkus.test.QuarkusUnitTest;
-import jakarta.inject.Inject;
 
 class CustomConfigFilenameTest {
     @RegisterExtension
